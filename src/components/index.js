@@ -24,7 +24,7 @@ function updateStructure(rec1,rec2){
 		rec1[left]=rec2[left]-rect1[left];
 		rec1[width]=rec2[width]-rect1[width];
 		rec1[height]=rec2[height]-rect1[height];
-		return rec1;
+		return rect1;
 	}else{
 		return "none";
 	}
