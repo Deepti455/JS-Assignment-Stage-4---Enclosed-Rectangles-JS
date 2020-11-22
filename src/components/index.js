@@ -5,75 +5,69 @@
 //	height: '96px'
 //}
 
-
-
-
-
-
-function updateStructure(recA,recB){
-	//write your code
-	if(contains(recA, recB)){
-		const relativeDim = relative(recA, recB);
-		return {...recA, childern: [relativeDim] };
-	} else if(contains(recB, recA)){
-		const relativeDim = relative(recB, recA);
-		return {...recB, childern: [relativeDim] };
-	} else{
-		return {...recA};
+function updateStructure(rec1,rec2){
+	if(contains(rec1,rec2)){
+		const relativeDm = relative(rec1,rec2);
+		return {...rec1,children : [relativeDm]};
+	}else if(contains(rec2,rec1)){
+		const relativeDm = relative(rec2,rec1);
+		return {...rec2,children : [relativeDm]};
+	}else {
+		return { ...rec1 };
 	}
+} 
 
-}
-
-function relative(recA, recB){
-	const recAn=normalize(recA);
-	const recBn=normalize(recB);
-
-	const res= {
-		childern :recB.childern
+function relative(rec1,rec2){
+	const recAn = normalize(rec1);
+	const recBn = normalize(rec2);
+	const res = {
+		children: rec2.children
 	}
-	if(recB.top){
-		res.top=`${recBn.x1-recAn.x1}px`;
+	if(rec2.top){
+		res.top = `${recBn.x1 - recAn.x1}px`;
 	}
-	if(recB.left){
-		res.left=`${recBn.y1-recAn.y1}px`;
+	if(rec2.left){
+		res.left = `${recBn.y1 - recAn.y1}px`;
 	}
-	if(recB.height){
-		res.height= recB.height;
+	if(rec2.height){
+		res.height =  rec2.height;
 	}
-	if(recB.width){
-		res.width= recB.width;
+	if(rec2.width){
+		res.width = rec2.width;
 	}
-	if(recB.bottom){
-		res.bottom= `${recAn.x2-recBn.x2}px`;
+	if(rec2.bottom){
+		res.bottom = `${recAn.x2 - recBn.x2}px`;
 	}
-	if(recB.right){
-		res.right= `${recAn.y2-recBn.y2}px`;
+	if(rec2.right){
+		res.right = `${recAn.y2 - recBn.y2}px`;
 	}
-	
 	return res;
+
 }
 
-function contains(recA, recB){
-	const recAn=normalize(recA);
-	const recBn=normalize(recB);
-	if(recAn.x1<=recBn.x1
-	   && recAn.y1<=recBn.y1
-	   && recAn.x2>=recBn.x2
-	   && recAn.y2>=recBn.y2){
+function contains(rec1,rec2){   
+	const recAn = normalize(rec1);
+	const recBn = normalize(rec2);
+	if(
+		 recAn.x1 <= recBn.x1
+		&& recAn.y1 <= recBn.y1
+		&& recAn.x2 >= recBn.x2
+		&& recAn.y2 >= recBn.y2){
 		return true;
 	}
 	return false;
+
 }
 
-const T=100000;
-const W=100000;
+const T = 0;
+const W = 0;
 function normalize(rec){
 	return {
-		x1: rec.top? parseInt(rec.top): (T- (parseInt(rec.bottom)+parseInt(rec.height))),
-		y1: rec.left? parseInt(rec.left): (W- (parseInt(rec.right)+parseInt(rec.width))),
-		x2: rec.bottom?(T- parseInt(rec.bottom)): (parseInt(rec.top)+parseInt(rec.height)),
-		y2: rec.right?(W- parseInt(rec.right)): (parseInt(rec.left)+parseInt(rec.width))
+		x1 : rec.top ? parseInt(rec.top): (T - (parseInt(rec.bottom) + parseInt(rec.height))),
+		y1 : rec.left ? parseInt(rec.left): (W - (parseInt(rec.right) + parseInt(rec.width))),
+		x2 : rec.bottom ? (T - parseInt(rec.bottom)): (parseInt(rec.top) + parseInt(rec.height)),
+		y2 : rec.right ? (W- parseInt(rec.right)) : (parseInt(rec.left) + parseInt(rec.width))
 	}
-} 
+}
 
 module.exports = updateStructure;
