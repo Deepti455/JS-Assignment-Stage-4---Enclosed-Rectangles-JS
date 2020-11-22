@@ -30,9 +30,7 @@ function relative(recA, recB){
 	const recAn=normalize(recA);
 	const recBn=normalize(recB);
 
-	const res= {
-		childern: recB.childern
-	}
+	const res= {}
 	if(recB.top){
 		res.top=`${recBn.x1-recAn.x1}px`;
 	}
@@ -51,6 +49,7 @@ function relative(recA, recB){
 	if(recB.right){
 		res.right= `${recAn.y2-recBn.y2}px`;
 	}
+	res.childern=recB.childern;
 	return res;
 }
 function updateStructure(recA,recB){
