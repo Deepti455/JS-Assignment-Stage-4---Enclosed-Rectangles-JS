@@ -5,11 +5,56 @@
 //	height: '96px'
 //}
 
-function updateStructure(rec1,rec2){
-	//write your code
-	recA= normalize(rec1);
-	recB= normalize(rec2);
+function normalize(rec){
+	return {
+		x1: rec.top? parseInt(rec.top) : (parseInt(rec.bottom)+parseInt(rec.height)),
+		y1: rec.left? parseInt(rec.left) : (parseInt(rec.right)+parseInt(rec.width)),
+		x2: rec.bottom? parseInt(rec.bottom) : (parseInt(rec.top)+parseInt(rec.height)),
+		y2: rec.right? parseInt(rec.right) : (parseInt(rec.left)+parseInt(rec.width))
+	}
+} 
 
+function contains(recA, recB){
+	const recAn=normalize(recA);
+	const recBn=normalize(recB);
+	if(recAn.x1<=recBn.x1
+	   && recAn.y1<=recBn.y1
+	   && recAn.x2>=recBn.x2
+	   && recAn.y2>=recBn.y2){
+		return true;
+	}
+	return false;
+}
+
+function relative(recA, recB){
+	const recAn=normalize(recA);
+	const recBn=normalize(recB);
+
+	const res= {
+		childern: recB.childern
+	}
+	if(recB.top){
+		res.top=`${recBn.x1-recAn.x1}px`;
+	}
+	if(recB.left){
+		res.left=`${recBn.y1-recAn.y1}px`;
+	}
+	if(recB.height){
+		res.height= recB.height;
+	}
+	if(recB.width){
+		res.width= recB.width;
+	}
+	if(recB.bottom){
+		res.bottom= `${recAn.x2-recBn.x2}px`;
+	}
+	if(recB.right){
+		res.right= `${recAn.y2-recBn.y2}px`;
+	}
+	return res;
+}
+function updateStructure(recA,recB){
+	//write your code
 	if(contains(recA, recB)){
 		const relativeDim = relative(recA, recB);
 		return {...recA, childern: [relativeDim] };
@@ -22,49 +67,5 @@ function updateStructure(rec1,rec2){
 
 }
 
-function contains(recA, recB){
-	// const recAn=normalize(recA);
-	// const recBn=normalize(recB);
-	if(recA.x1<=recB.x1
-	   && recA.y1<=recB.y1
-	   && recA.x2>=recB.x2
-	   && recA.y2>=recB.y2){
-		return true;
-	}
-	return false;
-}
 
-function normalize(rec){
-	return {
-		x1: rec.top? parseInt(rec.top) : (parseInt(rec.bottom)+parseInt(rec.height)),
-		y1: rec.left? parseInt(rec.left) : (parseInt(rec.right)+parseInt(rec.width)),
-		x2: rec.bottom? parseInt(rec.bottom) : (parseInt(rec.top)+parseInt(rec.height)),
-		y2: rec.right? parseInt(rec.right) : (parseInt(rec.left)+parseInt(rec.width))
-	}
-}
-
-function relative(recA, recB){
-	const res= {
-		childern: recB.childern
-	}
-	if(recB.top){
-		res.top=`${recB.x1-recA.x1}px`;
-	}
-	if(recB.left){
-		res.left=`${recB.y1-recA.y1}px`;
-	}
-	if(recB.height){
-		res.height= recB.height;
-	}
-	if(recB.width){
-		res.width= recB.width;
-	}
-	if(recB.bottom){
-		res.bottom= `${recA.x2-recB.x2}px`;
-	}
-	if(recB.right){
-		res.right= `${recA.y2-recB.y2}px`;
-	}
-	return res;
-}
 module.exports = updateStructure;
