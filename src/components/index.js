@@ -5,27 +5,23 @@
 //	height: '96px'
 //}
 
-const T=100000;
-const W=100000;
-function normalize(rec){
-	return {
-		x1: rec.top? parseInt(rec.top) :(T- (parseInt(rec.bottom)+parseInt(rec.height))),
-		y1: rec.left? parseInt(rec.left) :(W- (parseInt(rec.right)+parseInt(rec.width))),
-		x2: rec.bottom?(T- parseInt(rec.bottom)) : (parseInt(rec.top)+parseInt(rec.height)),
-		y2: rec.right?(W- parseInt(rec.right)) : (parseInt(rec.left)+parseInt(rec.width))
-	}
-} 
 
-function contains(recA, recB){
-	const recAn=normalize(recA);
-	const recBn=normalize(recB);
-	if(recAn.x1<=recBn.x1
-	   && recAn.y1<=recBn.y1
-	   && recAn.x2>=recBn.x2
-	   && recAn.y2>=recBn.y2){
-		return true;
+
+
+
+
+function updateStructure(recA,recB){
+	//write your code
+	if(contains(recA, recB)){
+		const relativeDim = relative(recA, recB);
+		return {...recA, childern: [relativeDim] };
+	} else if(contains(recB, recA)){
+		const relativeDim = relative(recB, recA);
+		return {...recB, childern: [relativeDim] };
+	} else{
+		return {...recA};
 	}
-	return false;
+
 }
 
 function relative(recA, recB){
@@ -56,19 +52,28 @@ function relative(recA, recB){
 	
 	return res;
 }
-function updateStructure(recA,recB){
-	//write your code
-	if(contains(recA, recB)){
-		const relativeDim = relative(recA, recB);
-		return {...recA, childern: [relativeDim] };
-	} else if(contains(recB, recA)){
-		const relativeDim = relative(recB, recA);
-		return {...recB, childern: [relativeDim] };
-	} else{
-		return {...recA};
-	}
 
+function contains(recA, recB){
+	const recAn=normalize(recA);
+	const recBn=normalize(recB);
+	if(recAn.x1<=recBn.x1
+	   && recAn.y1<=recBn.y1
+	   && recAn.x2>=recBn.x2
+	   && recAn.y2>=recBn.y2){
+		return true;
+	}
+	return false;
 }
 
+const T=100000;
+const W=100000;
+function normalize(rec){
+	return {
+		x1: rec.top? parseInt(rec.top): (T- (parseInt(rec.bottom)+parseInt(rec.height))),
+		y1: rec.left? parseInt(rec.left): (W- (parseInt(rec.right)+parseInt(rec.width))),
+		x2: rec.bottom?(T- parseInt(rec.bottom)): (parseInt(rec.top)+parseInt(rec.height)),
+		y2: rec.right?(W- parseInt(rec.right)): (parseInt(rec.left)+parseInt(rec.width))
+	}
+} 
 
 module.exports = updateStructure;

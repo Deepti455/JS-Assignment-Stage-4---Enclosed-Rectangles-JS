@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import App from "./components/App";
 function generateCodeFromObject(obj){
     //return a code generated string
-    return obj;
+    // return obj;
    }
    
 module.exports=generateCodeFromObject;
 
 
-// ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
