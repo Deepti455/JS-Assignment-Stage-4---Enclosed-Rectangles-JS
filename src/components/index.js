@@ -5,12 +5,14 @@
 //	height: '96px'
 //}
 
+const T=100000;
+const W=100000;
 function normalize(rec){
 	return {
-		x1: rec.top? parseInt(rec.top) : (parseInt(rec.bottom)+parseInt(rec.height)),
-		y1: rec.left? parseInt(rec.left) : (parseInt(rec.right)+parseInt(rec.width)),
-		x2: rec.bottom? parseInt(rec.bottom) : (parseInt(rec.top)+parseInt(rec.height)),
-		y2: rec.right? parseInt(rec.right) : (parseInt(rec.left)+parseInt(rec.width))
+		x1: rec.top? parseInt(rec.top) :(T- (parseInt(rec.bottom)+parseInt(rec.height))),
+		y1: rec.left? parseInt(rec.left) :(W- (parseInt(rec.right)+parseInt(rec.width))),
+		x2: rec.bottom?(T- parseInt(rec.bottom)) : (parseInt(rec.top)+parseInt(rec.height)),
+		y2: rec.right?(W- parseInt(rec.right)) : (parseInt(rec.left)+parseInt(rec.width))
 	}
 } 
 
@@ -30,7 +32,9 @@ function relative(recA, recB){
 	const recAn=normalize(recA);
 	const recBn=normalize(recB);
 
-	const res= {}
+	const res= {
+		childern :recB.childern
+	}
 	if(recB.top){
 		res.top=`${recBn.x1-recAn.x1}px`;
 	}
@@ -49,7 +53,7 @@ function relative(recA, recB){
 	if(recB.right){
 		res.right= `${recAn.y2-recBn.y2}px`;
 	}
-	res.childern=recB.childern;
+	
 	return res;
 }
 function updateStructure(recA,recB){
